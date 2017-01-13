@@ -30,6 +30,7 @@ namespace WebApplicationBasic
         public void ConfigureServices(IServiceCollection services)
         {
             var connectionString = Environment.GetEnvironmentVariable("SQLSERVER_CONNECTION_STRING");
+            Console.WriteLine(connectionString);
             services.AddDbContext<SchoolContext>(options => options.UseSqlServer(connectionString));
             // Add framework services.
             services.AddMvc();
