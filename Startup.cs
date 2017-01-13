@@ -6,6 +6,8 @@ using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging;
 using WebApplicationBasic.Data;
 using WebApplicationBasic.Models;
+using System;
+
 
 namespace WebApplicationBasic
 {
@@ -18,6 +20,7 @@ namespace WebApplicationBasic
                 .AddJsonFile("appsettings.json", optional: true, reloadOnChange: true)
                 .AddJsonFile($"appsettings.{env.EnvironmentName}.json", optional: true)
                 .AddEnvironmentVariables();
+            
             Configuration = builder.Build();
         }
 
@@ -26,7 +29,8 @@ namespace WebApplicationBasic
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
-            services.AddDbContext<SchoolContext>(options => options.UseSqlServer(Configuration.GetConnectionString("DefaultConnection")));
+            var connectionString = Environment.GetEnvironmentVariable("SQLSERVER_CONNECTION_STRING");
+            services.AddDbContext<SchoolContext>(options => options.UseSqlServer(connectionString));
             // Add framework services.
             services.AddMvc();
         }
